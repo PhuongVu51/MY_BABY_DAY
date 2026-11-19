@@ -549,7 +549,6 @@
         const activityChoices = document.getElementById('activityChoices');
         const changeActivity = document.getElementById('changeActivity');
         const timelineStops = document.querySelectorAll('.timeline-stop');
-        const responseApi = '/api/appointment-response';
         const acceptedMessage = 'Yayyy! Em mong đến buổi hẹn với iu lắm 💙';
 
         const stops = {
@@ -576,24 +575,6 @@
         };
         let selectedActivity = null;
         let selectedAnswer = null;
-        let responseInteracted = false;
-
-        function responseSummary(response) {
-            if (response.answer === 'accept') {
-                return acceptedMessage;
-            }
-
-            const answerText = {
-                accept: 'Đồng ý đi hẹn hò',
-                decline: 'Không đồng ý đi hẹn hò'
-            }[response.answer];
-            const activityText = {
-                cafe: 'Đi cafe',
-                movie: 'Xem phim'
-            }[response.activity];
-            const summary = [answerText, activityText].filter(Boolean).join(' · ');
-            return summary ? `Đã lưu câu trả lời: ${summary}.` : 'Chưa có câu trả lời được lưu.';
-        }
 
         function moveDeclineButton(event) {
             const area = responseActions.getBoundingClientRect();
@@ -642,75 +623,15 @@
             declineButton.style.top = `${destination.top}px`;
         }
 
-        async function saveResponse() {
-            responseMessage.classList.remove('is-error');
-            responseMessage.textContent = selectedAnswer === 'accept'
-                ? acceptedMessage
-                : 'Đang lưu câu trả lời...';
-            try {
-                const response = await fetch(responseApi, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        activity: selectedActivity,
-                        answer: selectedAnswer
-                    })
-                });
-                if (!response.ok) {
-                    throw new Error(`Máy chủ trả về mã ${response.status}.`);
-                }
-                const payload = await response.json();
-                responseMessage.textContent = responseSummary(payload.response);
-            } catch (error) {
-                console.error('Không lưu được câu trả lời buổi hẹn.', error);
-                if (selectedAnswer === 'accept') {
-                    responseMessage.textContent = `${acceptedMessage} Không lưu được câu trả lời. Hãy mở trang từ máy chủ web và thử lại.`;
-                } else {
-                    responseMessage.classList.add('is-error');
-                    responseMessage.textContent = 'Không lưu được. Hãy mở trang từ máy chủ web và thử lại.';
-                }
-            }
-        }
-
-        async function loadSavedResponse() {
-            responseMessage.classList.remove('is-error');
-            try {
-                const response = await fetch(responseApi, { cache: 'no-store' });
-                if (!response.ok) {
-                    throw new Error(`Máy chủ trả về mã ${response.status}.`);
-                }
-                const payload = await response.json();
-                if (responseInteracted) {
-                    return;
-                }
-                const savedResponse = payload.response;
-                if (!savedResponse) {
-                    responseMessage.textContent = 'Chưa có câu trả lời được lưu.';
-                    return;
-                }
-
-                selectedActivity = savedResponse.activity;
-                selectedAnswer = savedResponse.answer;
-                if (selectedActivity && stops[selectedActivity]) {
-                    activityName.textContent = stops[selectedActivity].name;
-                    activityPlace.textContent = stops[selectedActivity].location;
-                    activityChoices.hidden = true;
-                    changeActivity.hidden = false;
-                    showStop(selectedActivity);
-                }
-                if (selectedAnswer === 'accept') {
-                    statusLabel.innerHTML = '<span class="status-dot" aria-hidden="true"></span> ĐÃ ĐỒNG Ý 💙';
-                } else if (selectedAnswer === 'decline') {
-                    statusLabel.innerHTML = '<span class="status-dot" aria-hidden="true"></span> ĐÃ TỪ CHỐI';
-                }
-                responseMessage.textContent = responseSummary(savedResponse);
-            } catch (error) {
-                console.error('Không tải được câu trả lời đã lưu.', error);
-                if (responseInteracted) {
-                    return;
-                }
-                responseMessage.classList.add('is-error');
-                responseMessage.textContent = 'Chưa kết nối được máy chủ để tải câu trả lời.';
+        function updateResponseMessage() {
+            if (selectedAnswer === 'accept') {
+                responseMessage.textContent = acceptedMessage;
+            } else if (selectedAnswer === 'decline') {
+                responseMessage.textContent = 'Anh chọn không đồng ý đi hẹn hò.';
+            } else if (selectedActivity) {
+                responseMessage.textContent = `Đã chọn hoạt động: ${stops[selectedActivity].name}.`;
+            } else {
+                responseMessage.textContent = '';
             }
         }
 
@@ -745,7 +666,6 @@
 
         document.querySelectorAll('[data-activity]').forEach((button) => {
             button.addEventListener('click', () => {
-                responseInteracted = true;
                 selectedActivity = button.dataset.activity;
                 const stop = stops[selectedActivity];
                 activityName.textContent = stop.name;
@@ -753,31 +673,30 @@
                 activityChoices.hidden = true;
                 changeActivity.hidden = false;
                 showStop(selectedActivity);
-                saveResponse();
+                updateResponseMessage();
             });
         });
 
         changeActivity.addEventListener('click', () => {
             activityChoices.hidden = false;
             changeActivity.hidden = true;
+            selectedActivity = null;
+            updateResponseMessage();
         });
 
         document.querySelectorAll('[data-response]').forEach((button) => {
             button.addEventListener('click', () => {
-                responseInteracted = true;
                 selectedAnswer = button.dataset.response;
                 if (selectedAnswer === 'accept') {
                     statusLabel.innerHTML = '<span class="status-dot" aria-hidden="true"></span> ĐÃ ĐỒNG Ý 💙';
                 } else {
                     statusLabel.innerHTML = '<span class="status-dot" aria-hidden="true"></span> ĐÃ TỪ CHỐI';
                 }
-                saveResponse();
+                updateResponseMessage();
             });
         });
 
         declineButton.addEventListener('pointerenter', moveDeclineButton);
-
-        loadSavedResponse();
     </script>
 </body>
 </html>

@@ -71,6 +71,7 @@
         let currentPin = "";
         let isAuthenticating = false;
         const maxLen = 6;
+        const validPins = ["150306", "050105"];
 
         const dots = [
             document.getElementById('p1'),
@@ -113,7 +114,7 @@
             }
         }
 
-        async function checkPinCode() {
+        function checkPinCode() {
             const statusMsg = document.getElementById('statusMsg');
             if (isAuthenticating) {
                 return;
@@ -124,41 +125,7 @@
             }
 
             isAuthenticating = true;
-            statusMsg.style.color = '#8ea4c8';
-            statusMsg.textContent = "Đang kiểm tra mật mã...";
-
-            try {
-                const response = await fetch('/api/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ password: currentPin })
-                });
-                if (response.status === 401) {
-                    statusMsg.style.color = '#ff4b4b';
-                    statusMsg.textContent = "❌ Sai mật mã rồi anh iu ơi! Thử lại nha.";
-                    document.querySelector('.vault-wrapper').classList.add('shake');
-                    currentPin = "";
-                    updateDots();
-                    setTimeout(() => {
-                        document.querySelector('.vault-wrapper').classList.remove('shake');
-                        statusMsg.style.color = '#8ea4c8';
-                        statusMsg.textContent = "Sẵn sàng xác thực mật mã...";
-                    }, 800);
-                    isAuthenticating = false;
-                    return;
-                }
-                if (response.status === 429) {
-                    statusMsg.style.color = '#ff4b4b';
-                    statusMsg.textContent = "⚠️ Nhập sai quá nhiều lần. Hãy thử lại sau vài phút.";
-                    currentPin = "";
-                    updateDots();
-                    isAuthenticating = false;
-                    return;
-                }
-                if (!response.ok) {
-                    throw new Error(`Đăng nhập thất bại với mã ${response.status}.`);
-                }
-
+            if (validPins.includes(currentPin)) {
                 statusMsg.style.color = '#38ef7d';
                 statusMsg.textContent = "✨ Mật mã chính xác! Đang mở khóa...";
                 document.querySelector('.vault-wrapper').classList.add('success-pulse');
@@ -166,13 +133,18 @@
                     // Chuyển sang trang vault.html sau khi đúng mật khẩu
                     window.location.href = 'vault.html';
                 }, 600);
-            } catch (error) {
-                console.error('Không thể xác thực mật mã.', error);
+            } else {
                 statusMsg.style.color = '#ff4b4b';
-                statusMsg.textContent = "⚠️ Có lỗi khi đăng nhập. Hãy thử lại.";
+                statusMsg.textContent = "❌ Sai mật mã rồi anh iu ơi! Thử lại nha.";
+                document.querySelector('.vault-wrapper').classList.add('shake');
                 currentPin = "";
                 updateDots();
-                isAuthenticating = false;
+                setTimeout(() => {
+                    document.querySelector('.vault-wrapper').classList.remove('shake');
+                    statusMsg.style.color = '#8ea4c8';
+                    statusMsg.textContent = "Sẵn sàng xác thực mật mã...";
+                    isAuthenticating = false;
+                }, 800);
             }
         }
 

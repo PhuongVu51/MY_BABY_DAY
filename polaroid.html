@@ -357,14 +357,20 @@
             }
 
             try {
-                const response = await fetch('/api/photos', { cache: 'no-store' });
+                const response = await fetch('gallery-photos.json');
                 if (!response.ok) throw new Error(`Gallery request failed: ${response.status}`);
-                const photos = await response.json();
-                if (!Array.isArray(photos)) throw new Error('Invalid gallery response');
+                const names = await response.json();
+                if (!Array.isArray(names) || names.some(name => typeof name !== 'string')) {
+                    throw new Error('Invalid gallery manifest');
+                }
+                const photos = names.map(name => ({
+                    src: `polaroid-images/${encodeURIComponent(name)}`,
+                    name
+                }));
                 renderPhotos(photos);
                 status.textContent = `Album có ${photos.length} ảnh.`;
             } catch (error) {
-                status.textContent = 'Không tải được album ảnh. Hãy mở trang bằng run-gallery.bat.';
+                status.textContent = 'Không tải được album ảnh. Hãy tải lại trang sau.';
                 console.error('Unable to load gallery photos:', error);
             }
         }
