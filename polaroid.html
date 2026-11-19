@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#061e3a">
+    <title>Album kỷ niệm — Babi's Ocean Vault</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 28px clamp(16px, 4vw, 56px) 56px;
+            color: #eef9ff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background:
+                linear-gradient(135deg, rgba(2, 11, 28, 0.88), rgba(4, 33, 62, 0.82)),
+                url("IMG_3607.JPG") center 42% / cover fixed,
+                #061e3a;
+        }
+
+        .page {
+            width: min(100%, 1440px);
+            margin: 0 auto;
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            min-height: 42px;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 9px 16px;
+            border: 1px solid rgba(0, 210, 255, 0.36);
+            border-radius: 999px;
+            color: #b8f2ff;
+            background: rgba(3, 26, 51, 0.74);
+            font: inherit;
+            font-size: 13px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .back-link:hover {
+            transform: translateY(-2px);
+            border-color: rgba(0, 210, 255, 0.7);
+            background: rgba(0, 150, 210, 0.24);
+        }
+
+        header {
+            margin: 0 0 28px;
+            text-align: center;
+        }
+
+        .eyebrow {
+            margin: 0 0 8px;
+            color: #45d9ee;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2.4px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(30px, 5vw, 48px);
+            line-height: 1.15;
+        }
+
+        .subtitle {
+            margin: 10px 0 0;
+            color: #a7bdd3;
+            font-size: 14px;
+        }
+
+        .gallery-status {
+            min-height: 22px;
+            margin: 0 0 20px;
+            color: #8eb6cb;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .gallery-layout {
+            display: block;
+        }
+
+        .gallery-layout.is-showing-photo {
+            display: grid;
+            grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+            align-items: start;
+            gap: clamp(16px, 2.4vw, 32px);
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, 190px), 1fr));
+            grid-auto-rows: 8px;
+            grid-auto-flow: row dense;
+            column-gap: 18px;
+            row-gap: 14px;
+        }
+
+        .gallery-layout.is-showing-photo .gallery {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .photo-card {
+            display: block;
+            width: 100%;
+            min-width: 0;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            border-radius: 12px;
+            background: transparent;
+            box-shadow: none;
+            cursor: zoom-in;
+            appearance: none;
+            transition: transform 0.22s ease;
+        }
+
+        .photo-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .photo-card.is-expanded {
+            display: none;
+        }
+
+        .photo-card img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+        }
+
+        .empty-state {
+            display: none;
+            max-width: 580px;
+            margin: 42px auto;
+            padding: 26px;
+            border: 1px solid rgba(0, 210, 255, 0.2);
+            border-radius: 18px;
+            color: #b7cde0;
+            background: rgba(3, 20, 42, 0.72);
+            line-height: 1.8;
+            text-align: center;
+        }
+
+        .empty-state code {
+            color: #75e5f5;
+        }
+
+        .selected-photo {
+            position: relative;
+            display: grid;
+            min-width: 0;
+            min-height: 280px;
+            place-items: center;
+            margin: 0;
+        }
+
+        .selected-photo[hidden] {
+            display: none;
+        }
+
+        .selected-photo:not([hidden]) {
+            position: sticky;
+            top: 16px;
+            align-self: start;
+        }
+
+        .selected-photo img {
+            display: block;
+            width: 100%;
+            max-height: calc(100vh - 32px);
+            object-fit: contain;
+            border-radius: 12px;
+        }
+
+        .selected-photo-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(180, 236, 255, 0.45);
+            border-radius: 50%;
+            color: white;
+            background: rgba(3, 26, 51, 0.82);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 18px 12px 36px;
+                background-attachment: scroll;
+            }
+
+            .topbar {
+                align-items: flex-start;
+                margin-bottom: 22px;
+            }
+
+            .back-link {
+                min-height: 38px;
+                padding: 8px 11px;
+                font-size: 11px;
+            }
+
+            .gallery-layout.is-showing-photo {
+                display: grid;
+                grid-template-columns: minmax(0, 1fr);
+                gap: 18px;
+            }
+
+            .gallery,
+            .gallery-layout.is-showing-photo .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(min(100%, 145px), 1fr));
+                column-gap: 10px;
+                row-gap: 10px;
+            }
+
+            .selected-photo:not([hidden]) {
+                position: relative;
+                top: auto;
+            }
+
+            .selected-photo img {
+                max-height: 70vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="page">
+        <nav class="topbar" aria-label="Điều hướng album">
+            <a class="back-link" href="vault.html">← Quay lại</a>
+        </nav>
+
+        
+
+        <p class="gallery-status" id="galleryStatus" role="status" aria-live="polite"></p>
+        <div class="gallery-layout" id="galleryLayout">
+            <section class="selected-photo" id="selectedPhoto" aria-label="Ảnh đang xem" hidden>
+                <button class="selected-photo-close" id="selectedPhotoClose" type="button" aria-label="Thu nhỏ ảnh">×</button>
+                <img id="selectedPhotoImage" alt="">
+            </section>
+            <section class="gallery" id="gallery" aria-label="Album ảnh kỷ niệm"></section>
+        </div>
+        <div class="empty-state" id="emptyState">
+            Chưa có ảnh trong <code>polaroid-images</code>. Hãy thêm ảnh vào thư mục này rồi tải lại trang.
+        </div>
+    </main>
+
+    <script>
+        const localPhotos = [
+            { src: 'polaroid-images/IMG_3605.JPG', name: 'IMG_3605.JPG' },
+            { src: 'polaroid-images/IMG_3607.JPG', name: 'IMG_3607.JPG' },
+            { src: 'polaroid-images/IMG_4598.JPG', name: 'IMG_4598.JPG' },
+            { src: 'polaroid-images/IMG_4607.JPG', name: 'IMG_4607.JPG' }
+        ];
+        const gallery = document.getElementById('gallery');
+        const galleryLayout = document.getElementById('galleryLayout');
+        const status = document.getElementById('galleryStatus');
+        const emptyState = document.getElementById('emptyState');
+        const selectedPhoto = document.getElementById('selectedPhoto');
+        const selectedPhotoImage = document.getElementById('selectedPhotoImage');
+        const selectedPhotoClose = document.getElementById('selectedPhotoClose');
+        const maxThumbnailRetries = 2;
+        let selectedCard;
+        let lastGalleryWidth = 0;
+
+        function layoutMasonry() {
+            const styles = getComputedStyle(gallery);
+            const rowSize = parseFloat(styles.gridAutoRows);
+            const rowGap = parseFloat(styles.rowGap);
+
+            gallery.querySelectorAll('.photo-card').forEach(card => {
+                const image = card.querySelector('img');
+                if (!image.complete || !image.naturalHeight) return;
+                const imageHeight = image.getBoundingClientRect().height;
+                const rowSpan = Math.ceil((imageHeight + rowGap) / (rowSize + rowGap));
+                card.style.gridRowEnd = `span ${rowSpan}`;
+            });
+        }
+
+        const galleryResizeObserver = new ResizeObserver(() => {
+            const width = gallery.getBoundingClientRect().width;
+            if (width === lastGalleryWidth) return;
+            lastGalleryWidth = width;
+            requestAnimationFrame(layoutMasonry);
+        });
+        galleryResizeObserver.observe(gallery);
+
+        function renderPhotos(photos) {
+            closeSelectedPhoto();
+            gallery.replaceChildren();
+            emptyState.style.display = photos.length ? 'none' : 'block';
+
+            photos.forEach(photo => {
+                const card = document.createElement('button');
+                card.type = 'button';
+                card.className = 'photo-card';
+                card.setAttribute('aria-label', `Phóng to ${photo.name}`);
+
+                const image = document.createElement('img');
+                image.alt = photo.name;
+                image.loading = 'lazy';
+                image.addEventListener('load', () => {
+                    delete image.dataset.thumbnailRetries;
+                    layoutMasonry();
+                });
+                image.addEventListener('error', () => {
+                    const retries = Number(image.dataset.thumbnailRetries || '0');
+                    if (retries >= maxThumbnailRetries) return;
+
+                    const nextRetry = retries + 1;
+                    image.dataset.thumbnailRetries = String(nextRetry);
+                    window.setTimeout(() => {
+                        if (!image.isConnected || image.naturalWidth) return;
+
+                        const retryUrl = new URL(photo.src, document.baseURI);
+                        retryUrl.searchParams.set('thumbnailRetry', String(nextRetry));
+                        image.src = retryUrl.href;
+                    }, nextRetry * 500);
+                });
+                image.src = photo.src;
+
+                card.append(image);
+                card.addEventListener('click', () => showSelectedPhoto(photo.src, photo.name, card));
+                gallery.append(card);
+            });
+            requestAnimationFrame(layoutMasonry);
+        }
+
+        async function loadPhotos() {
+            if (location.protocol === 'file:') {
+                renderPhotos(localPhotos);
+                status.textContent = '';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/photos', { cache: 'no-store' });
+                if (!response.ok) throw new Error(`Gallery request failed: ${response.status}`);
+                const photos = await response.json();
+                if (!Array.isArray(photos)) throw new Error('Invalid gallery response');
+                renderPhotos(photos);
+                status.textContent = `Album có ${photos.length} ảnh.`;
+            } catch (error) {
+                status.textContent = 'Không tải được album ảnh. Hãy mở trang bằng run-gallery.bat.';
+                console.error('Unable to load gallery photos:', error);
+            }
+        }
+
+        function showSelectedPhoto(src, name, card) {
+            if (!selectedPhoto.hidden && selectedPhotoImage.src === new URL(src, document.baseURI).href) {
+                closeSelectedPhoto();
+                return;
+            }
+            if (selectedCard) selectedCard.classList.remove('is-expanded');
+            selectedCard = card;
+            selectedCard.classList.add('is-expanded');
+            selectedPhotoImage.src = src;
+            selectedPhotoImage.alt = name;
+            selectedPhoto.hidden = false;
+            galleryLayout.classList.add('is-showing-photo');
+            requestAnimationFrame(layoutMasonry);
+        }
+
+        function closeSelectedPhoto() {
+            if (selectedCard) {
+                selectedCard.classList.remove('is-expanded');
+                selectedCard = undefined;
+            }
+            selectedPhoto.hidden = true;
+            selectedPhotoImage.removeAttribute('src');
+            selectedPhotoImage.alt = '';
+            galleryLayout.classList.remove('is-showing-photo');
+            requestAnimationFrame(layoutMasonry);
+        }
+
+        selectedPhotoClose.addEventListener('click', closeSelectedPhoto);
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && !selectedPhoto.hidden) closeSelectedPhoto();
+        });
+        loadPhotos();
+    </script>
+</body>
+</html>

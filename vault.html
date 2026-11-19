@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Babi's Ocean Vault — Không Gian Kỷ Niệm</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background:
+                linear-gradient(135deg, rgba(2, 11, 28, 0.72), rgba(4, 33, 62, 0.68)),
+                url("IMG_3607.JPG") center 42% / cover fixed no-repeat,
+                #061e3a;
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Hiệu ứng sao lấp lánh background */
+        .stars-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00d2ff;
+            animation: twinkle 2s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+
+        .container {
+            position: relative;
+            z-index: auto;
+            max-width: 1100px;
+            width: 100%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .top-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 210, 255, 0.1);
+            border: 1px solid rgba(0, 210, 255, 0.3);
+            padding: 5px 16px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            color: #00d2ff;
+            margin-bottom: 6px;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .welcome-title {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 12px;
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(2.25rem, 5vw, 3rem);
+            font-weight: 800;
+            line-height: 1.04;
+            letter-spacing: -0.045em;
+        }
+
+        .title-text {
+            display: inline-block;
+            white-space: nowrap;
+            font-family: inherit;
+            color: transparent;
+            background: linear-gradient(110deg, #ffffff 12%, #a9efff 42%, #43caff 68%, #ffffff 92%);
+            background-size: 220% 100%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 14px rgba(0, 210, 255, 0.3));
+            animation: titleReveal 0.85s cubic-bezier(0.2, 0.8, 0.2, 1) both,
+                titleShimmer 4.5s ease-in-out 1s infinite;
+        }
+
+        .title-icons {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .welcome-title::after {
+            content: "";
+            width: 82px;
+            height: 2px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, transparent, #00d2ff, #d6f7ff, #00d2ff, transparent);
+            background-size: 200% 100%;
+            box-shadow: 0 0 12px rgba(0, 210, 255, 0.65);
+            animation: underlineGlow 3s ease-in-out infinite;
+        }
+
+        .welcome-title .blue-icon,
+        .welcome-title .sparkle-icon {
+            display: inline-block;
+            font-size: 0.75em;
+        }
+
+        .welcome-title .blue-icon {
+            animation: heartFloat 2.2s ease-in-out infinite;
+        }
+
+        .welcome-title .sparkle-icon {
+            animation: sparkleTwinkle 1.8s ease-in-out infinite;
+        }
+
+        @keyframes titleReveal {
+            from { opacity: 0; transform: translateY(12px) scale(0.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes titleShimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes underlineGlow {
+            0%, 100% { opacity: 0.55; background-position: 0% 50%; }
+            50% { opacity: 1; background-position: 100% 50%; }
+        }
+
+        @keyframes heartFloat {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-4px) scale(1.12); }
+        }
+
+        @keyframes sparkleTwinkle {
+            0%, 100% { transform: rotate(0) scale(0.9); }
+            50% { transform: rotate(18deg) scale(1.18); }
+        }
+
+        .subtitle {
+            font-size: 12px;
+            color: #8ea4c8;
+            margin-bottom: 15px;
+        }
+
+        /* ---------------------------------------------------------------- */
+        /* KHU VỰC COLLAGE TRUNG TÂM - LỚN VÀ CHỒNG CHÉO SÁT NHAU */
+        /* ---------------------------------------------------------------- */
+        .collage-container {
+            position: relative;
+            width: min(900px, calc(100vw - 48px));
+            height: min(520px, calc(100vh - 210px));
+            min-height: 430px;
+            margin: 0 auto;
+        }
+
+        .item {
+            position: absolute;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .item:hover {
+            z-index: 99 !important;
+            transform: scale(1.02) rotate(0deg) !important;
+            filter: drop-shadow(0 18px 28px rgba(0, 210, 255, 0.38));
+        }
+
+        /* 1. BỨC THƯ XANH BIỂN NHẠT (Bên trái) */
+        .envelope-item {
+            top: 24px;
+            left: 42px;
+            transform: rotate(-7deg);
+            z-index: 2;
+            display: block;
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .ocean-envelope {
+            width: 380px;
+            height: 245px;
+            background: linear-gradient(135deg, #39d7e8 0%, #0788d8 58%, #1766c2 100%);
+            border-radius: 16px;
+            position: relative;
+            box-shadow: 0 18px 38px rgba(0, 0, 0, 0.34), 0 0 0 1px rgba(255, 255, 255, 0.3);
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.96);
+            isolation: isolate;
+        }
+
+        .ocean-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 72%;
+            background: #ffffff;
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            transform-origin: 50% 0;
+            transition: transform 0.65s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.55s ease;
+            z-index: 5;
+            border-radius: 16px 16px 0 0;
+            filter: drop-shadow(0 2px 3px rgba(5, 47, 105, 0.28));
+        }
+
+        .ocean-flap::before {
+            content: '';
+            position: absolute;
+            inset: 3px;
+            background: linear-gradient(155deg, #62e2ec 0%, #1ba6d8 48%, #0870c5 100%);
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+        }
+
+        .envelope-item:hover .ocean-flap {
+            transform: rotateX(180deg);
+            filter: brightness(1.15);
+        }
+
+        .envelope-heart {
+            position: absolute;
+            left: 50%;
+            top: 52%;
+            z-index: 3;
+            transform: translate(-50%, -35%) scale(0.5);
+            opacity: 0;
+            font-size: 44px;
+            filter: drop-shadow(0 5px 12px rgba(0, 54, 140, 0.35));
+            transition: opacity 0.3s ease, transform 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+        }
+
+        .envelope-item:hover .envelope-heart {
+            opacity: 1;
+            transform: translate(-50%, -72%) scale(1);
+        }
+
+
+        /* 2 & 3. HAI ẢNH POLAROID (Cố định size, không bao giờ bị vỡ hay phóng to lung tung) */
+        .polaroid-group {
+            top: 185px;
+            left: 20px;
+            width: 410px;
+            height: 240px;
+            z-index: 6;
+        }
+
+        .polaroid-group .polaroid-card {
+            position: absolute;
+            transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s ease;
+        }
+
+        .polaroid-group .card-1 {
+            left: -20px;
+            top: 46px;
+            transform: rotate(-8deg);
+            z-index: 1;
+        }
+
+        .polaroid-group .card-2 {
+            left: 95px;
+            top: 8px;
+            transform: rotate(5deg);
+            z-index: 3;
+        }
+
+        .polaroid-group .card-3 {
+            right: -20px;
+            top: 46px;
+            transform: rotate(9deg);
+            z-index: 2;
+        }
+
+        .polaroid-group:hover .card-1 {
+            transform: translate(-14px, 8px) rotate(-11deg) scale(1.02);
+            box-shadow: 0 24px 38px rgba(0, 210, 255, 0.34);
+        }
+
+        .polaroid-group:hover .card-2 {
+            transform: translateY(-12px) rotate(2deg) scale(1.04);
+            box-shadow: 0 24px 38px rgba(0, 210, 255, 0.34);
+        }
+
+        .polaroid-group:hover .card-3 {
+            transform: translate(14px, 8px) rotate(12deg) scale(1.02);
+            box-shadow: 0 24px 38px rgba(0, 210, 255, 0.34);
+        }
+
+        .polaroid-card {
+            background: #ffffff;
+            padding: 12px 12px 36px 12px;
+            border-radius: 6px;
+            box-shadow: 0 20px 45px rgba(0,0,0,0.6);
+            width: 210px;
+        }
+
+        /* Ép kích thước ảnh cố định chuẩn tuyệt đối */
+        .polaroid-photo {
+            width: 186px !important;
+            height: 186px !important;
+            object-fit: cover !important;
+            background: #0f172a;
+            border-radius: 4px;
+            display: block;
+        }
+
+        .polaroid-caption {
+            font-size: 12px;
+            color: #334155;
+            margin-top: 10px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+
+        /* 4. TỜ LỊCH THIẾT KẾ LẠI SANG TRỌNG (Góc trên phải) */
+        .calendar-item {
+            top: 32px;
+            right: 120px;
+            transform: rotate(6deg);
+            z-index: 3;
+        }
+
+        .luxury-calendar {
+            background: #ffffff;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 20px 45px rgba(0,0,0,0.6);
+            width: 300px;
+            border: 2px solid rgba(173, 232, 255, 0.85);
+            outline: 4px solid rgba(0, 210, 255, 0.12);
+            outline-offset: 4px;
+        }
+
+        .cal-top-banner {
+            background: linear-gradient(135deg, #0077d9 0%, #20c7d9 100%);
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: 700;
+            position: relative;
+        }
+        .cal-top-banner::before, .cal-top-banner::after {
+            content: '';
+            position: absolute;
+            top: -8px;
+            width: 10px;
+            height: 16px;
+            background: #94a3b8;
+            border-radius: 3px;
+        }
+        .cal-top-banner::before { left: 45px; }
+        .cal-top-banner::after { right: 45px; }
+
+        .cal-content-grid {
+            padding: 18px;
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            background: #fff;
+        }
+
+        .cal-box {
+            aspect-ratio: 1;
+            background: #f1f5f9;
+            border-radius: 3px;
+        }
+        .cal-box.highlight {
+            background: linear-gradient(135deg, #0077d9 0%, #20c7d9 100%);
+            box-shadow: 0 0 12px rgba(32, 199, 217, 0.75);
+            border: 1px solid #dffaff;
+        }
+
+
+        /* 5. BÓ HOA HỒNG THIẾT KẾ NGHỆ THUẬT (Góc dưới phải) */
+        .flowers-item {
+            bottom: -60px;
+            right: 20px;
+            transform: rotate(-3deg);
+            z-index: 8;
+            mix-blend-mode: screen;
+        }
+
+        .item.flowers-item,
+        .item.flowers-item:hover {
+            z-index: 8 !important;
+            filter: none;
+        }
+
+        .item.flowers-item:hover {
+            transform: rotate(-3deg);
+        }
+
+        .bouquet-art {
+            position: relative;
+            width: 420px;
+            height: 420px;
+        }
+
+        .bouquet-reference {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            pointer-events: none;
+        }
+
+        @media (max-width: 760px) {
+            body {
+                overflow: auto;
+                justify-content: flex-start;
+                padding: 24px 12px;
+            }
+
+            .container {
+                margin: auto;
+            }
+
+            .welcome-title {
+                font-size: clamp(1.9rem, 7vw, 2.5rem);
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            .collage-container {
+                width: min(100%, 560px);
+                height: 620px;
+                min-height: 0;
+            }
+
+            .envelope-item {
+                top: 24px;
+                left: 2%;
+                transform: rotate(-5deg) scale(0.72);
+                transform-origin: top left;
+            }
+
+            .calendar-item {
+                top: 32px;
+                right: 8%;
+                transform: rotate(5deg) scale(0.66);
+                transform-origin: top right;
+            }
+
+            .polaroid-group {
+                top: 220px;
+                left: 0;
+                transform: scale(0.66);
+                transform-origin: top left;
+            }
+
+            .flowers-item {
+                bottom: 48px;
+                right: 2%;
+                transform: scale(0.72);
+                transform-origin: bottom right;
+            }
+
+            .item.flowers-item:hover {
+                transform: scale(0.72);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .title-text,
+            .welcome-title::after,
+            .welcome-title .blue-icon,
+            .welcome-title .sparkle-icon {
+                animation: none;
+            }
+        }
+        
+
+        .hint-text {
+            margin-top: 15px;
+            font-size: 11px;
+            color: #6482ad;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars-container">
+        <div class="star" style="top: 15%; left: 10%; animation-delay: 0s;"></div>
+        <div class="star" style="top: 35%; left: 85%; animation-delay: 1s;"></div>
+        <div class="star" style="top: 75%; left: 20%; animation-delay: 0.5s;"></div>
+        <div class="star" style="top: 85%; left: 90%; animation-delay: 2s;"></div>
+    </div>
+
+    <div class="container">
+        <h1 class="welcome-title">
+            <span class="title-text">Happy My Babi's Day</span>
+            <span class="title-icons">
+                <span class="blue-icon" aria-hidden="true">💙</span>
+                <span class="sparkle-icon" aria-hidden="true">✨</span>
+            </span>
+        </h1>
+        <p class="subtitle">Chạm vào từng món quà để khám phá những điều bất ngờ em dành tặng anh</p>
+
+        <!-- CỤM GHÉP NỐI TRUNG TÂM -->
+        <div class="collage-container">
+            
+            <!-- 1. BỨC THƯ XANH BIỂN NHẠT -->
+            <a class="item envelope-item" href="letter.html" aria-label="Mở thư tình">
+                <div class="ocean-envelope">
+                    <div class="envelope-heart" aria-hidden="true">💙</div>
+                    <div class="ocean-flap"></div>
+                </div>
+            </a>
+
+            <!-- 2. CỤM 3 POLAROID -->
+            <a class="item polaroid-group" href="polaroid.html" aria-label="Mở album ảnh kỷ niệm">
+                <div class="polaroid-card card-1">
+                    <img src="IMG_4598.JPG" alt="Ảnh 1" class="polaroid-photo" id="photo1">
+                </div>
+                <div class="polaroid-card card-2">
+                    <img src="IMG_3605.JPG" alt="Ảnh 2" class="polaroid-photo" id="photo2">
+                </div>
+                <div class="polaroid-card card-3">
+                    <img src="IMG_4607.JPG" alt="Ảnh 3" class="polaroid-photo" id="photo3">
+                </div>
+            </a>
+
+            <!-- 4. TỜ LỊCH -->
+            <a class="item calendar-item" href="appointment.html" aria-label="Xem chi tiết buổi hẹn ngày 24 tháng 11">
+                <div class="luxury-calendar">
+                    <div class="cal-top-banner">
+                        <div style="font-size: 11px; opacity: 0.9;">THÁNG 11</div>
+                        <div style="font-size: 15px; font-weight: 700;">2026</div>
+                    </div>
+                    <div class="cal-content-grid">
+                        <div class="cal-box"></div><div class="cal-box"></div><div class="cal-box"></div><div class="cal-box"></div><div class="cal-box"></div><div class="cal-box"></div><div class="cal-box"></div>
+                        <div class="cal-box"></div><div class="cal-box highlight" style="display:grid;place-items:center;color:white;font-size:10px;font-weight:800;">24</div><div class="cal-box"></div><div class="cal-box"></div><div class="cal-box"></div><div class="cal-box"></div><div class="cal-box"></div>
+                        <div class="cal-box"></div><div class="cal-box"></div><div class="cal-box"></div><div class="cal-box"></div><div class="cal-box"></div><div class="cal-box"></div><div class="cal-box"></div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- 5. BÓ HOA Y2K -->
+            <div class="item flowers-item">
+                <div class="bouquet-art">
+                    <img class="bouquet-reference" src="tải xuống (1).jpg" alt="Bó hoa lily trắng">
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</body>
+</html>

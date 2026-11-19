@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#07111f">
+    <title>Lịch hẹn của chúng mình 💙</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 32px 20px;
+            color: #eef7ff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background:
+                linear-gradient(135deg, rgba(2, 11, 28, 0.72), rgba(4, 33, 62, 0.68)),
+                url("IMG_3607.JPG") center 42% / cover fixed no-repeat,
+                #061e3a;
+        }
+
+        .page {
+            width: min(100%, 980px);
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #a7dce9;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: #21e4ee;
+            transform: translateX(-3px);
+        }
+
+        .page-heading {
+            margin: 28px 0 24px;
+        }
+
+        .eyebrow {
+            margin: 0 0 10px;
+            color: #51dce8;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(26px, 5vw, 40px);
+            line-height: 1.2;
+        }
+
+        .intro {
+            margin: 10px 0 0;
+            color: #9aacc0;
+            font-size: 14px;
+        }
+
+        .appointment-card {
+            display: grid;
+            grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+            overflow: hidden;
+            border: 1px solid rgba(127, 196, 221, 0.16);
+            border-radius: 22px;
+            background: rgba(18, 27, 41, 0.88);
+            box-shadow: 0 28px 80px rgba(0, 0, 0, 0.38);
+        }
+
+        .restaurant-photo {
+            position: relative;
+            min-height: 480px;
+            background: #102339;
+        }
+
+        .restaurant-photo img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            min-height: 480px;
+            object-fit: cover;
+        }
+
+        .photo-label {
+            position: absolute;
+            right: 18px;
+            bottom: 18px;
+            left: 18px;
+            padding: 14px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 14px;
+            background: rgba(5, 15, 27, 0.76);
+            backdrop-filter: blur(12px);
+        }
+
+        .photo-label span {
+            color: #65d8e6;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.4px;
+        }
+
+        .photo-label h2 {
+            margin: 5px 0 0;
+            font-size: 18px;
+        }
+
+        .details {
+            padding: clamp(24px, 4vw, 38px);
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border: 1px solid rgba(44, 217, 226, 0.23);
+            border-radius: 999px;
+            color: #a8edf0;
+            background: rgba(0, 194, 205, 0.1);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.7px;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #28e0dc;
+            box-shadow: 0 0 10px #28e0dc;
+        }
+
+        .date-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 24px 0;
+            padding: 18px;
+            border: 1px solid rgba(143, 166, 193, 0.1);
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.035);
+        }
+
+        .date-number {
+            display: grid;
+            width: 58px;
+            height: 62px;
+            flex: 0 0 auto;
+            place-content: center;
+            border-radius: 13px;
+            color: #061421;
+            background: linear-gradient(145deg, #4be6e9, #14b8d0);
+            text-align: center;
+        }
+
+        .date-number strong {
+            font-size: 25px;
+            line-height: 1;
+        }
+
+        .date-number span {
+            margin-top: 3px;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .date-copy small,
+        .detail-label {
+            display: block;
+            margin-bottom: 5px;
+            color: #8498ad;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .date-copy strong {
+            font-size: 15px;
+        }
+
+        .info-row {
+            display: flex;
+            gap: 13px;
+            margin: 19px 0;
+        }
+
+        .info-icon {
+            width: 22px;
+            flex: 0 0 22px;
+            color: #4cd8e4;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .info-row p {
+            margin: 0;
+            color: #e5edf5;
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 1.55;
+        }
+
+        .info-row p span {
+            display: block;
+            margin-top: 3px;
+            color: #91a1b4;
+            font-size: 11px;
+            font-weight: 400;
+        }
+
+        .timeline-section {
+            margin: 24px 0 0;
+            padding: 18px 14px 14px;
+            border: 1px solid rgba(143, 166, 193, 0.1);
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.035);
+        }
+
+        .timeline-heading {
+            margin: 0 0 22px;
+            color: #9eb0c3;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .timeline-stops {
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .timeline-stops::before {
+            position: absolute;
+            top: 13px;
+            right: 25%;
+            left: 25%;
+            height: 2px;
+            background: linear-gradient(90deg, #27d8e2, rgba(97, 122, 147, 0.35));
+            content: '';
+        }
+
+        .timeline-stop {
+            position: relative;
+            display: flex;
+            min-width: 0;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .timeline-marker {
+            z-index: 1;
+            display: grid;
+            width: 28px;
+            height: 28px;
+            place-items: center;
+            border: 2px solid #53677d;
+            border-radius: 50%;
+            color: #a9bacb;
+            background: #172333;
+            font: inherit;
+            font-size: 10px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .timeline-stop.is-active .timeline-marker,
+        .timeline-marker:hover {
+            border-color: #42e1e6;
+            color: #07151f;
+            background: #42e1e6;
+            box-shadow: 0 0 16px rgba(66, 225, 230, 0.4);
+        }
+
+        .timeline-time {
+            margin-top: 10px;
+            color: #55dce4;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .timeline-name {
+            margin-top: 4px;
+            color: #f0f6fc;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .timeline-place {
+            margin-top: 3px;
+            color: #93a6ba;
+            font-size: 10px;
+            line-height: 1.45;
+        }
+
+        .activity-choices {
+            display: grid;
+            width: 100%;
+            gap: 6px;
+            margin-top: 10px;
+            padding: 0 5px;
+        }
+
+        .activity-choice,
+        .change-activity {
+            border: 1px solid rgba(69, 209, 222, 0.24);
+            border-radius: 9px;
+            color: #c9f5f6;
+            background: rgba(0, 192, 205, 0.08);
+            font: inherit;
+            font-size: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s ease, border-color 0.2s ease;
+        }
+
+        .activity-choice {
+            padding: 8px 5px;
+        }
+
+        .activity-choice:hover,
+        .change-activity:hover {
+            border-color: #42dce5;
+            background: rgba(0, 192, 205, 0.2);
+        }
+
+        .change-activity {
+            margin-top: 9px;
+            padding: 6px 9px;
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        .note {
+            margin-top: 24px;
+            padding: 15px 16px;
+            border-left: 2px solid #21dbe3;
+            border-radius: 0 12px 12px 0;
+            color: #a9bdcf;
+            background: rgba(0, 199, 215, 0.07);
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .response-title {
+            margin: 26px 0 12px;
+            color: #9eb0c3;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .response-actions {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-content: start;
+            align-items: start;
+            gap: 10px;
+            min-height: 128px;
+        }
+
+        .response-button {
+            min-height: 48px;
+            padding: 12px 14px;
+            border: 1px solid transparent;
+            border-radius: 13px;
+            color: white;
+            font: inherit;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: transform 0.2s ease, filter 0.2s ease, background 0.2s ease;
+        }
+
+        .response-button:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+        }
+
+        .accept-button {
+            color: #042126;
+            background: linear-gradient(135deg, #5be9e5, #16c6d6);
+            box-shadow: 0 8px 22px rgba(0, 200, 215, 0.18);
+        }
+
+        .decline-button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 1;
+            width: calc(50% - 5px);
+            border-color: rgba(180, 193, 210, 0.16);
+            background: rgba(255, 255, 255, 0.06);
+            transition: left 0.16s ease, top 0.16s ease, filter 0.2s ease, background 0.2s ease;
+        }
+
+        .response-message {
+            min-height: 20px;
+            margin: 13px 0 0;
+            color: #82e5e9;
+            text-align: center;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .response-message.is-error {
+            color: #ff9a9a;
+        }
+
+        @media (max-width: 720px) {
+            body {
+                padding: 22px 14px;
+            }
+
+            .page-heading {
+                margin: 23px 0 18px;
+            }
+
+            .appointment-card {
+                grid-template-columns: 1fr;
+            }
+
+            .restaurant-photo,
+            .restaurant-photo img {
+                min-height: 260px;
+                max-height: 340px;
+            }
+
+            .details {
+                padding: 24px 20px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .response-actions {
+                grid-template-columns: 1fr;
+                min-height: 200px;
+            }
+
+            .decline-button {
+                top: 58px;
+                right: auto;
+                left: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="page">
+        <a class="back-link" href="vault.html">← Quay lại</a>
+
+        <header class="page-heading">
+            <p class="eyebrow">A LITTLE DATE, JUST FOR US ✦</p>
+            <h1>LỊCH TRÌNH 💙</h1>
+            <p class="intro">Một buổi tối em đã chuẩn bị dành riêng cho anh.</p>
+        </header>
+
+        <article class="appointment-card">
+            <div class="restaurant-photo">
+                <img src="polaroid-images/nhà hàng 1.jpg" alt="Không gian nhà hàng cho buổi hẹn của chúng mình">
+                <div class="photo-label">
+                    <span>ĐIỂM HẸN CỦA TỤI MÌNH</span>
+                    <h2>Sakura Yakiniku</h2>
+                </div>
+            </div>
+
+            <section class="details" aria-label="Thông tin buổi hẹn">
+                <div class="status"><span class="status-dot" aria-hidden="true"></span> THƯ MỜI ANH IU THAM DỰ</div>
+
+                <div class="date-card">
+                    <div class="date-number"><strong>24</strong><span>THÁNG 11</span></div>
+                    <div class="date-copy">
+                        <small>THỜI GIAN ĐÓN EM</small>
+                        <strong>18:00 · Thứ Ba, 24/11/2026</strong>
+                    </div>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-icon" aria-hidden="true">⌖</span>
+                    <p><span class="detail-label">ĐỊA ĐIỂM</span><span id="currentLocation">90B P. Bùi Thị Xuân, Hai Bà Trưng, Hà Nội</span><span id="currentLocationDetail">Em đã đặt bàn cho mình rồi ạ!</span></p>
+                </div>
+
+                <section class="timeline-section" aria-label="Timeline buổi hẹn">
+                    <p class="timeline-heading">LỊCH TRÌNH BUỔI HẸN</p>
+                    <div class="timeline-stops">
+                        <div class="timeline-stop is-active" data-stop="dinner">
+                            <button class="timeline-marker" type="button" data-show-stop="dinner" aria-label="Xem mốc ăn tối" aria-pressed="true">1</button>
+                            <time class="timeline-time">18:30</time>
+                            <span class="timeline-name">Ăn tối</span>
+                            <span class="timeline-place">Sakura Yakiniku Bùi Thị Xuân</span>
+                        </div>
+
+                        <div class="timeline-stop" data-stop="activity">
+                            <button class="timeline-marker" type="button" data-show-stop="activity" aria-label="Xem hoạt động sau bữa tối" aria-pressed="false">2</button>
+                            <time class="timeline-time" id="activityTime">Dự kiến 20:30</time>
+                            <span class="timeline-name" id="activityName">Chọn hoạt động</span>
+                            <span class="timeline-place" id="activityPlace">Sau bữa tối</span>
+                            <div class="activity-choices" id="activityChoices" aria-label="Chọn hoạt động sau bữa tối">
+                                <button class="activity-choice" type="button" data-activity="cafe">☕ Đi cafe</button>
+                                <button class="activity-choice" type="button" data-activity="movie">🎬 Xem phim</button>
+                            </div>
+                            <button class="change-activity" id="changeActivity" type="button" hidden>Chọn lại</button>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="note">Em đã chuẩn bị một buổi tối thật vui và một bữa ăn thật ngon. Anh iu nhớ để dành buổi tối hôm đó cho em nha! Yêu anh! 💌</div>
+
+                <p class="response-title">Anh có đồng ý đi hẹn hò với em không?</p>
+                <div class="response-actions">
+                    <button class="response-button accept-button" type="button" data-response="accept">💙 Đồng ý</button>
+                    <button class="response-button decline-button" type="button" data-response="decline">Không đồng ý</button>
+                </div>
+                <p class="response-message" id="responseMessage" role="status" aria-live="polite"></p>
+            </section>
+        </article>
+    </main>
+
+    <script>
+        const statusLabel = document.querySelector('.status');
+        const responseMessage = document.getElementById('responseMessage');
+        const responseActions = document.querySelector('.response-actions');
+        const acceptButton = document.querySelector('.accept-button');
+        const declineButton = document.querySelector('.decline-button');
+        const restaurantImage = document.querySelector('.restaurant-photo img');
+        const photoTitle = document.querySelector('.photo-label h2');
+        const currentLocation = document.getElementById('currentLocation');
+        const currentLocationDetail = document.getElementById('currentLocationDetail');
+        const activityName = document.getElementById('activityName');
+        const activityPlace = document.getElementById('activityPlace');
+        const activityChoices = document.getElementById('activityChoices');
+        const changeActivity = document.getElementById('changeActivity');
+        const timelineStops = document.querySelectorAll('.timeline-stop');
+        const responseApi = '/api/appointment-response';
+        const acceptedMessage = 'Yayyy! Em mong đến buổi hẹn với iu lắm 💙';
+
+        const stops = {
+            dinner: {
+                image: 'polaroid-images/nhà hàng 1.jpg',
+                imageAlt: 'Nhà hàng Sakura Yakiniku',
+                name: 'Sakura Yakiniku',
+                location: 'Nhà hàng Sakura Yakiniku',
+                detail: 'Em sẽ gửi địa chỉ cụ thể cho anh nha.'
+            },
+            cafe: {
+                image: 'polaroid-images/cafe.jpg',
+                imageAlt: 'Quán Ba Cậu Coffee',
+                name: 'Đi Ba Cậu Coffee',
+                location: 'Quán Ba Cậu Coffee',
+                detail: '34 Lê Đại Hành, Hai Bà Trưng, Hà Nội'
+            },
+            movie: {
+                image: 'polaroid-images/Xem phim.jpg',
+                imageAlt: 'Ảnh buổi xem phim',
+                name: 'Xem phim',
+                detail: 'Địa điểm và phim cụ thể mình sẽ bàn ví nhau sau nha iu.'
+            }
+        };
+        let selectedActivity = null;
+        let selectedAnswer = null;
+        let responseInteracted = false;
+
+        function responseSummary(response) {
+            if (response.answer === 'accept') {
+                return acceptedMessage;
+            }
+
+            const answerText = {
+                accept: 'Đồng ý đi hẹn hò',
+                decline: 'Không đồng ý đi hẹn hò'
+            }[response.answer];
+            const activityText = {
+                cafe: 'Đi cafe',
+                movie: 'Xem phim'
+            }[response.activity];
+            const summary = [answerText, activityText].filter(Boolean).join(' · ');
+            return summary ? `Đã lưu câu trả lời: ${summary}.` : 'Chưa có câu trả lời được lưu.';
+        }
+
+        function moveDeclineButton(event) {
+            const area = responseActions.getBoundingClientRect();
+            const button = declineButton.getBoundingClientRect();
+            const accept = acceptButton.getBoundingClientRect();
+            const maxLeft = Math.max(0, area.width - button.width);
+            const maxTop = Math.max(0, area.height - button.height);
+            const currentLeft = button.left - area.left;
+            const currentTop = button.top - area.top;
+            let destination = null;
+
+            for (let attempt = 0; attempt < 40; attempt += 1) {
+                const left = Math.random() * maxLeft;
+                const top = Math.random() * maxTop;
+                const candidate = {
+                    left: area.left + left,
+                    right: area.left + left + button.width,
+                    top: area.top + top,
+                    bottom: area.top + top + button.height
+                };
+                const overlapsAccept = candidate.left < accept.right + 8
+                    && candidate.right > accept.left - 8
+                    && candidate.top < accept.bottom + 8
+                    && candidate.bottom > accept.top - 8;
+                const pointerNearButton = event.clientX >= candidate.left - 24
+                    && event.clientX <= candidate.right + 24
+                    && event.clientY >= candidate.top - 24
+                    && event.clientY <= candidate.bottom + 24;
+                const movedEnough = Math.hypot(left - currentLeft, top - currentTop) > 48;
+
+                if (!overlapsAccept && !pointerNearButton && movedEnough) {
+                    destination = { left, top };
+                    break;
+                }
+            }
+
+            if (!destination) {
+                destination = {
+                    left: currentLeft <= maxLeft / 2 ? maxLeft : 0,
+                    top: maxTop
+                };
+            }
+
+            declineButton.style.left = `${destination.left}px`;
+            declineButton.style.right = 'auto';
+            declineButton.style.top = `${destination.top}px`;
+        }
+
+        async function saveResponse() {
+            responseMessage.classList.remove('is-error');
+            responseMessage.textContent = selectedAnswer === 'accept'
+                ? acceptedMessage
+                : 'Đang lưu câu trả lời...';
+            try {
+                const response = await fetch(responseApi, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        activity: selectedActivity,
+                        answer: selectedAnswer
+                    })
+                });
+                if (!response.ok) {
+                    throw new Error(`Máy chủ trả về mã ${response.status}.`);
+                }
+                const payload = await response.json();
+                responseMessage.textContent = responseSummary(payload.response);
+            } catch (error) {
+                console.error('Không lưu được câu trả lời buổi hẹn.', error);
+                if (selectedAnswer === 'accept') {
+                    responseMessage.textContent = `${acceptedMessage} Không lưu được câu trả lời. Hãy mở trang từ máy chủ web và thử lại.`;
+                } else {
+                    responseMessage.classList.add('is-error');
+                    responseMessage.textContent = 'Không lưu được. Hãy mở trang từ máy chủ web và thử lại.';
+                }
+            }
+        }
+
+        async function loadSavedResponse() {
+            responseMessage.classList.remove('is-error');
+            try {
+                const response = await fetch(responseApi, { cache: 'no-store' });
+                if (!response.ok) {
+                    throw new Error(`Máy chủ trả về mã ${response.status}.`);
+                }
+                const payload = await response.json();
+                if (responseInteracted) {
+                    return;
+                }
+                const savedResponse = payload.response;
+                if (!savedResponse) {
+                    responseMessage.textContent = 'Chưa có câu trả lời được lưu.';
+                    return;
+                }
+
+                selectedActivity = savedResponse.activity;
+                selectedAnswer = savedResponse.answer;
+                if (selectedActivity && stops[selectedActivity]) {
+                    activityName.textContent = stops[selectedActivity].name;
+                    activityPlace.textContent = stops[selectedActivity].location;
+                    activityChoices.hidden = true;
+                    changeActivity.hidden = false;
+                    showStop(selectedActivity);
+                }
+                if (selectedAnswer === 'accept') {
+                    statusLabel.innerHTML = '<span class="status-dot" aria-hidden="true"></span> ĐÃ ĐỒNG Ý 💙';
+                } else if (selectedAnswer === 'decline') {
+                    statusLabel.innerHTML = '<span class="status-dot" aria-hidden="true"></span> ĐÃ TỪ CHỐI';
+                }
+                responseMessage.textContent = responseSummary(savedResponse);
+            } catch (error) {
+                console.error('Không tải được câu trả lời đã lưu.', error);
+                if (responseInteracted) {
+                    return;
+                }
+                responseMessage.classList.add('is-error');
+                responseMessage.textContent = 'Chưa kết nối được máy chủ để tải câu trả lời.';
+            }
+        }
+
+        function showStop(stopName) {
+            const stop = stops[stopName];
+            if (!stop) {
+                return;
+            }
+
+            restaurantImage.src = stop.image;
+            restaurantImage.alt = stop.imageAlt;
+            photoTitle.textContent = stop.name;
+            currentLocation.textContent = stop.location;
+            currentLocationDetail.textContent = stop.detail;
+
+            timelineStops.forEach((timelineStop) => {
+                const isActive = timelineStop.dataset.stop === (stopName === 'dinner' ? 'dinner' : 'activity');
+                timelineStop.classList.toggle('is-active', isActive);
+                timelineStop.querySelector('.timeline-marker').setAttribute('aria-pressed', String(isActive));
+            });
+        }
+
+        document.querySelectorAll('[data-show-stop]').forEach((marker) => {
+            marker.addEventListener('click', () => {
+                if (marker.dataset.showStop === 'dinner') {
+                    showStop('dinner');
+                } else if (selectedActivity) {
+                    showStop(selectedActivity);
+                }
+            });
+        });
+
+        document.querySelectorAll('[data-activity]').forEach((button) => {
+            button.addEventListener('click', () => {
+                responseInteracted = true;
+                selectedActivity = button.dataset.activity;
+                const stop = stops[selectedActivity];
+                activityName.textContent = stop.name;
+                activityPlace.textContent = stop.location;
+                activityChoices.hidden = true;
+                changeActivity.hidden = false;
+                showStop(selectedActivity);
+                saveResponse();
+            });
+        });
+
+        changeActivity.addEventListener('click', () => {
+            activityChoices.hidden = false;
+            changeActivity.hidden = true;
+        });
+
+        document.querySelectorAll('[data-response]').forEach((button) => {
+            button.addEventListener('click', () => {
+                responseInteracted = true;
+                selectedAnswer = button.dataset.response;
+                if (selectedAnswer === 'accept') {
+                    statusLabel.innerHTML = '<span class="status-dot" aria-hidden="true"></span> ĐÃ ĐỒNG Ý 💙';
+                } else {
+                    statusLabel.innerHTML = '<span class="status-dot" aria-hidden="true"></span> ĐÃ TỪ CHỐI';
+                }
+                saveResponse();
+            });
+        });
+
+        declineButton.addEventListener('pointerenter', moveDeclineButton);
+
+        loadSavedResponse();
+    </script>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#061e3a">
+    <title>Gửi yêu dấu của em — Babi's Ocean Vault</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 48px 24px;
+            color: #eaf5ff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background:
+                linear-gradient(135deg, rgba(2, 11, 28, 0.9), rgba(4, 33, 62, 0.82)),
+                url("IMG_3607.JPG") center 42% / cover fixed,
+                #061e3a;
+        }
+
+        .page {
+            width: min(100%, 980px);
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 14px;
+            border: 1px solid rgba(0, 210, 255, 0.35);
+            border-radius: 999px;
+            color: #a9efff;
+            background: rgba(3, 26, 51, 0.7);
+            font-size: 13px;
+            text-decoration: none;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .back-link:hover {
+            background: rgba(0, 150, 210, 0.24);
+            transform: translateX(-3px);
+        }
+
+        .letter-heading {
+            margin: 28px auto 24px;
+            text-align: center;
+        }
+
+        .mail-icon {
+            display: grid;
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 15px;
+            place-items: center;
+            border: 1px solid rgba(0, 210, 255, 0.45);
+            border-radius: 50%;
+            color: #24d8ee;
+            background: rgba(0, 210, 255, 0.12);
+            box-shadow: 0 0 24px rgba(0, 210, 255, 0.18);
+            font-size: 21px;
+        }
+
+        .eyebrow {
+            margin: 0 0 9px;
+            color: #64d9ef;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 0;
+            color: #f5fbff;
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(36px, 6vw, 58px);
+            font-style: italic;
+            line-height: 1.15;
+            text-shadow: 0 5px 26px rgba(0, 170, 255, 0.35);
+        }
+
+        .heading-rule {
+            width: 180px;
+            height: 1px;
+            margin: 16px auto 0;
+            background: linear-gradient(90deg, transparent, #2ed8ed, transparent);
+        }
+
+        .letter-card {
+            padding: clamp(24px, 5vw, 50px);
+            border: 1px solid rgba(80, 204, 242, 0.2);
+            border-radius: 18px;
+            background: rgba(2, 15, 36, 0.68);
+            box-shadow: 0 28px 80px rgba(0, 0, 0, 0.38), inset 0 1px rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(8px);
+        }
+
+        .letter-meta {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 32px;
+            color: #78cce2;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        .letter-meta span:last-child {
+            color: #91a9c5;
+        }
+
+        .letter-body {
+            color: #dce8f5;
+            font-size: 15px;
+            line-height: 1.95;
+        }
+
+        .letter-body p {
+            margin: 0;
+        }
+
+        .letter-break {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            width: 100px;
+            margin: 25px auto;
+            color: #39d9e8;
+            font-size: 12px;
+        }
+
+        .letter-break::before,
+        .letter-break::after {
+            height: 1px;
+            flex: 1;
+            background: linear-gradient(90deg, transparent, rgba(0, 210, 255, 0.48));
+            content: '';
+        }
+
+        .letter-break::after {
+            transform: rotate(180deg);
+        }
+
+        .signature {
+            margin-top: 40px;
+            color: #dce8f5;
+            text-align: right;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .signature-name {
+            display: block;
+            margin-top: 3px;
+            color: #35d7e9;
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 30px;
+            font-style: italic;
+        }
+
+        .signed-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 11px;
+            padding: 6px 12px;
+            border: 1px solid rgba(0, 210, 255, 0.28);
+            border-radius: 999px;
+            color: #91dff1;
+            background: rgba(0, 150, 220, 0.14);
+            font-size: 10px;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 24px 14px;
+                background-attachment: scroll;
+            }
+
+            .letter-heading {
+                margin-top: 24px;
+            }
+
+            .letter-meta {
+                flex-direction: column;
+                gap: 8px;
+                margin-bottom: 24px;
+            }
+
+            .letter-body {
+                font-size: 14px;
+                line-height: 1.85;
+            }
+
+            .signature {
+                margin-top: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="page">
+        <a class="back-link" href="vault.html">← Quay lại</a>
+
+        <header class="letter-heading">
+            <div class="mail-icon" aria-hidden="true">✉</div>
+            <h1>Gửi yêu dấu của em</h1>
+            <div class="heading-rule"></div>
+        </header>
+
+        <article class="letter-card">
+            <div class="letter-meta">
+                <span>♡ Từ: Cún yêu của anh bíeo</span>
+            </div>
+
+            <div class="letter-body">
+                <p>Chắc anh iu nghĩ là em quên mất ngày dành cho anh iu rùi nhỉ, em nhớ hết mò, chỉ là chuẩn bị hơi lâu một xíu thoii. Vì anh iu là người đầu tiên nên em luôn muốn dành cho anh những điều bất ngờ và vì em cũng rất yêu anh bíeo của em. Em cũng từng làm rất nhiều đồ handmade, tặng rất nhiều người thân, bạn bè, thầy cô, nhưng món quà dành cho anh yêu phải đặc biệt nhất nên thời gian chuẩn bị cũng lâu hơn xí.</p>
+
+                <div class="letter-break" aria-hidden="true">♡</div>
+
+                <p>Anh yêu biết không, em đã nói điều này trong nhiều bức thư và cũng nói trực tiếp với anh nhiều lần nhưng em vẫn muốn cảm ơn tình yêu của em đã luôn yêu em rất nhiều, chiều chuộng em và lo cho em. Cảm ơn anh đã đến bên em và đồng hành cùng em trong cuộc đời. Trước đây em không phải người biết cách bày tỏ cảm xúc của mình, có khoảng thời gian em cũng rất stress và suy nghĩ rất tiêu cực. Nhưng sau khi được gặp những người bạn mới, môi trường mới thì em đã biết cách điều khiển cảm xúc của mình hơn, suy nghĩ thoáng hơn và tích cực hơn nhiều. Và khi được gặp anh, lần đầu được học cách yêu, lần đầu em được yêu thương và chăm sóc nhiều như cách anh yêu đã luôn yêu em em thấy mình quả thực là một người may mắn mới gặp được anh. Em mong mình sẽ luôn cố gắng, đồng hành cùng nhau trong cuộc sống sắp tới, luôn yêu thương, chia sẻ, cảm thông cho nhau và em tin rằng mình làm được điều đó iu ạ.</p>
+
+                <div class="letter-break" aria-hidden="true">♡</div>
+
+                <p>Dịp Boy’s day này em muốn tự mình chuẩn bị, lên kế hoạch cho toàn bộ buổi date ngày hôm đó, (nhưng em vẫn cần anh iu đón ạ hihi) em đã đặt bàn tại nhà hàng và chúng mình sẽ đi ăn một bữa nướng thật ngon iu ạa. Gần nửa năm yêu nhau nhưng đây mới là dịp đầu tiên dành riêng cho anh iu nên em muốn chuẩn bị chỉn chu nhất có thể, mong rằng iu cụa em sẽ thích và yêu em nhìu hơn ạaa. Nên em muốn mời anh iu đi date vào tối ngày 24 tháng 11 này ạ, thời gian và địa chỉ cụ thể iu xem trong phần lịch nhó. Mong anh iu sẽ đồng í đi cùng em ạaaa.</p>
+            </div>
+
+            <footer class="signature">
+                Yêu anh nhất thế giới!
+                <span class="signature-name">Cún yêu</span>
+                <span class="signed-badge">Đã ký</span>
+            </footer>
+        </article>
+    </main>
+</body>
+</html>

@@ -1,0 +1,46 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Prepare bouquet transparent image",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"-c",
+				"from PIL import Image,ImageFilter,ImageChops; p=r'c:\\Users\\Dell\\AppData\\Roaming\\Code\\agentSessionData\\ecc466d5-38ef-410b-84fe-ae074fec55e7\\attachments\\a593be61-8830-455b-a134-34b1e64919f0\\Pasted Image.png'; im=Image.open(p).convert('RGBA'); px=im.load(); w,h=im.size; for y in range(h):\n for x in range(w):\n  r,g,b,a=px[x,y]; if r>175 and g>175 and b>175 and b>r*0.82 and b>g*0.82: px[x,y]=(r,g,b,0); im.load()[x,y]=(r,g,b,0)\ncrop=im.crop((540,260,920,640)); crop=crop.resize((380,380),Image.Resampling.LANCZOS); crop.save(r'D:\\Boy\\x27s day\\flower-bouquet.png')"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "Create transparent bouquet asset",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"prepare_bouquet.py"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "Copy bouquet reference image",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"prepare_bouquet.js"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "Copy bouquet image with cmd",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"copy",
+				"/y",
+				"C:\\Users\\Dell\\AppData\\Roaming\\Code\\agentSessionData\\ecc466d5-38ef-410b-84fe-ae074fec55e7\\attachments\\a593be61-8830-455b-a134-34b1e64919f0\\Pasted Image.png",
+				"D:\\Boy's day\\flower-bouquet.png"
+			],
+			"isBackground": false
+		}
+	]
+}
